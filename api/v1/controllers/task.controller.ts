@@ -17,7 +17,18 @@ export const index = async (req: Request, res: Response): Promise<void> => {
     }
     //End lọc theo trạng thái
 
-    const tasks = await Task.find(find)
+    //Sắp xếp theo tiêu chí
+    const sort: Record<string, 1 | -1> = {};
+
+    if (req.query.sortKey && req.query.sortValue) {
+        const sortKey = String(req.query.sortKey);
+        const sortValue: 1 | -1 = req.query.sortValue === 'asc' ? 1 : -1;
+        sort[sortKey] = sortValue;
+    }
+
+    //End Sắp xếp theo tiêu chí
+
+    const tasks = await Task.find(find).sort(sort)
     res.json(tasks)
 };
 
