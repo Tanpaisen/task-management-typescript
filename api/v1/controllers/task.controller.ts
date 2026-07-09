@@ -3,6 +3,7 @@ import Task from '../../../models/tasks.model';
 import { paginationHelper } from '../../../helper/pagination';
 import searchHelper from '../../../helper/filter-search';
 
+//[GET] /api/v1/tasks
 export const index = async (req: Request, res: Response): Promise<void> => {
     interface Find {
         deleted: boolean,
@@ -57,6 +58,7 @@ export const index = async (req: Request, res: Response): Promise<void> => {
     })
 };
 
+//[GET] /api/v1/tasks/detail/:id
 export const detail = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id;
     const task = await Task.findOne({
@@ -64,4 +66,19 @@ export const detail = async (req: Request, res: Response): Promise<void> => {
         deleted: false
     })
     res.json(task)
+};
+
+//[PATCH] /api/v1/tasks/change-status/:id
+export const changeStatus = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+    await Task.updateOne({
+        _id: id,
+        deleted: false
+    }, {
+        status: req.body.status
+    })
+    res.json({
+        code: 200,
+        message: "Cập nhật trạng thái thành công"
+    })
 };
