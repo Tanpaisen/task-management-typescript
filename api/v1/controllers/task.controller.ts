@@ -1,11 +1,13 @@
 import { Request, Response } from 'express';
 import Task from '../../../models/tasks.model';
 import { paginationHelper } from '../../../helper/pagination';
+import searchHelper from '../../../helper/filter-search';
 
 export const index = async (req: Request, res: Response): Promise<void> => {
     interface Find {
         deleted: boolean,
-        status?: string
+        status?: string,
+        title?: RegExp
     }
 
     const find: Find = {
@@ -37,6 +39,16 @@ export const index = async (req: Request, res: Response): Promise<void> => {
 
     const pageData = paginationHelper(req.query, count, objectPage)
     // End pagination
+
+    //Tìm kiếm
+    const keyword: string = req.query.keyword?.toString() || '';
+    if (keyword) {
+        const search = searchHelper(req.query);
+
+        find.title = search.regex;
+    }
+    //End Tìm kiếm
+
     const tasks = await Task.find(find).sort(sort).skip(pageData.skipPage).limit(pageData.limitPage)
     res.json({
         code: 200,
