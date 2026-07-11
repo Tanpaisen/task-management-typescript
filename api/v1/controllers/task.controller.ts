@@ -93,3 +93,19 @@ export const create = async (req: Request, res: Response): Promise<void> => {
         task: tasks
     })
 };
+
+
+//[PATCH] /api/v1/tasks/edit/:id
+export const edit = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+    await Task.updateOne({
+        _id: id,
+        deleted: false
+    }, {
+        ...req.body
+    })
+    res.json({
+        code: 200,
+        message: "Cập nhật task thành công"
+    })
+};

@@ -9,4 +9,8 @@ routerTask.get('/detail/:id', controller.detail);
 
 routerTask.patch('/change-status/:id', controller.changeStatus);
 
+routerTask.patch('/edit/:id', controller.edit);
+
 routerTask.post('/create', controller.create);
+
+
