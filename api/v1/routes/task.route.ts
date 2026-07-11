@@ -8,3 +8,5 @@ routerTask.get('/', controller.index);
 routerTask.get('/detail/:id', controller.detail);
 
 routerTask.patch('/change-status/:id', controller.changeStatus);
+
+routerTask.post('/create', controller.create);

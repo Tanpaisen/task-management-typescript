@@ -75,10 +75,21 @@ export const changeStatus = async (req: Request, res: Response): Promise<void> =
         _id: id,
         deleted: false
     }, {
-        status: req.body.status
+        status: req.body.status.toString()
     })
     res.json({
         code: 200,
         message: "Cập nhật trạng thái thành công"
+    })
+};
+
+//[POST] /api/v1/tasks/create
+export const create = async (req: Request, res: Response): Promise<void> => {
+    const tasks = new Task(req.body);
+    await tasks.save();
+    res.json({
+        code: 201,
+        message: "Tạo task thành công",
+        task: tasks
     })
 };
