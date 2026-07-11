@@ -13,4 +13,6 @@ routerTask.patch('/edit/:id', controller.edit);
 
 routerTask.post('/create', controller.create);
 
+routerTask.patch('/change-multi', controller.changeMulti);
+
 

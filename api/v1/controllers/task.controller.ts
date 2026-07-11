@@ -109,3 +109,18 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
         message: "Cập nhật task thành công"
     })
 };
+
+//[PATCH] /api/v1/tasks/change-multi
+export const changeMulti = async (req: Request, res: Response): Promise<void> => {
+    const { ids, status } = req.body;
+    await Task.updateMany({
+        _id: { $in: ids },
+        deleted: false
+    }, {
+        ...req.body
+    })
+    res.json({
+        code: 200,
+        message: "Cập nhật trạng thái task thành công"
+    })
+};
