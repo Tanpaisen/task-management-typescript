@@ -11,6 +11,8 @@ routerTask.patch('/change-status/:id', controller.changeStatus);
 
 routerTask.patch('/edit/:id', controller.edit);
 
+routerTask.patch('/delete-one/:id', controller.deleteOne);
+
 routerTask.post('/create', controller.create);
 
 routerTask.patch('/change-multi', controller.changeMulti);

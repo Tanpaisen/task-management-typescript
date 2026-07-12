@@ -124,3 +124,18 @@ export const changeMulti = async (req: Request, res: Response): Promise<void> =>
         message: "Cập nhật trạng thái task thành công"
     })
 };
+
+//[PATCH] /api/v1/tasks/delete-one/:id
+export const deleteOne = async (req: Request, res: Response): Promise<void> => {
+    const id = req.params.id;
+    await Task.updateOne({
+        _id: id,
+        deleted: false
+    }, {
+        deleted: true
+    })
+    res.json({
+        code: 200,
+        message: "Xóa task thành công"
+    })
+};
