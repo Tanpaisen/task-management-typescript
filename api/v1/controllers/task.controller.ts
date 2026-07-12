@@ -112,13 +112,36 @@ export const edit = async (req: Request, res: Response): Promise<void> => {
 
 //[PATCH] /api/v1/tasks/change-multi
 export const changeMulti = async (req: Request, res: Response): Promise<void> => {
-    const { ids, status } = req.body;
-    await Task.updateMany({
-        _id: { $in: ids },
-        deleted: false
-    }, {
-        ...req.body
-    })
+    enum KEY {
+        STATUS = "status",
+        DELETE = "delete-multi"
+    }
+
+    const { ids, key, value } = req.body;
+
+    switch (key) {
+        case KEY.STATUS:
+            await Task.updateMany({
+                _id: { $in: ids },
+                deleted: false
+            }, {
+                status: value.toString()
+            });
+            break;
+        case KEY.DELETE:
+            await Task.updateMany({
+                _id: { $in: ids },
+                deleted: false
+            }, {
+                deleted: true
+            });
+            break;
+        default:
+            res.status(400).json({
+                message: "Trạng thái không hợp lệ"
+            });
+            break;
+    }
     res.json({
         code: 200,
         message: "Cập nhật trạng thái task thành công"
