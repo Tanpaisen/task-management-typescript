@@ -3,6 +3,10 @@ import md5 from 'md5';
 import User from '../../../models/user.model';
 import * as generate from '../../../helper/generate';
 
+interface RequestAuth extends Request {
+    user?: any;
+}
+
 //[POST] /api/v1/users/register
 export const register = async (req: Request, res: Response): Promise<void> => {
     req.body.password = md5(req.body.password)
@@ -63,21 +67,9 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 }
 
 //[GET] /api/v1/users/info
-export const info = async (req: Request, res: Response): Promise<void> => {
-    const token: string = req.cookies.token;
-    const user = await User.findOne({ 
-        tokenUser: token, 
-        deleted: false 
-    }).select("-password -tokenUser");
-    if (!user) {
-        res.json({
-            code: 400,
-            message: "Token không hợp lệ!"
-        })
-        return;
-    }
+export const info = async (req: RequestAuth, res: Response): Promise<void> => {
     res.json({
         code: 200,
-        info: user
+        info: req.user
     })
 }
