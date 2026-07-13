@@ -4,3 +4,5 @@ import * as controller from '../controllers/user.controller';
 export const routerUser: Router = Router()
 
 routerUser.post('/register', controller.register);
+
+routerUser.post('/login', controller.login);

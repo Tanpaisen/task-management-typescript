@@ -25,3 +25,38 @@ export const register = async (req: Request, res: Response): Promise<void> => {
         tokenUser: user.tokenUser
     });
 }
+
+//[POST] /api/v1/users/login
+export const login = async (req: Request, res: Response): Promise<void> => {
+    const email: string = req.body.email;
+    const password: string = md5(req.body.password);
+
+    const user = await User.findOne({
+        email: email,
+        deleted: false,
+    })
+
+    if (!user) {
+        res.json({
+            code: 400,
+            message: "Email không tồn tại!"
+        })
+        return;
+    }
+
+    if (password !== user.password) {
+        res.json({
+            code: 400,
+            message: "Sai mật khẩu!"
+        })
+        return;
+    }
+
+    res.cookie('token', user.tokenUser)
+
+    res.json({
+        code: 200,
+        token: user.tokenUser,
+        message: "Đăng nhập thành công!"
+    })
+}
