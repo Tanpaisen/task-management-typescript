@@ -140,7 +140,7 @@ export const changeMulti = async (req: Request, res: Response): Promise<void> =>
             res.status(400).json({
                 message: "Trạng thái không hợp lệ"
             });
-            break;
+            return;
     }
     res.json({
         code: 200,

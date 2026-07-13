@@ -3,11 +3,15 @@ import dotenv from 'dotenv';
 import * as database from './config/database';
 import { routeMainv1 } from './api/v1/routes/index.route';
 import bodyParser from 'body-parser';
+import cors from 'cors';
 
 dotenv.config();
 database.connect();
 
 const app: Express = express();
+
+//CORS
+app.use(cors());
 
 // parse application/json
 app.use(bodyParser.json())
