@@ -20,6 +20,7 @@ export const register = async (req: Request, res: Response): Promise<void> => {
     const user = new User( req.body )
     await user.save();
 
+    res.cookie('token', user.tokenUser)
     res.status(201).json({ 
         message: 'User created successfully',
         tokenUser: user.tokenUser
@@ -58,5 +59,25 @@ export const login = async (req: Request, res: Response): Promise<void> => {
         code: 200,
         token: user.tokenUser,
         message: "Đăng nhập thành công!"
+    })
+}
+
+//[GET] /api/v1/users/info
+export const info = async (req: Request, res: Response): Promise<void> => {
+    const token: string = req.cookies.token;
+    const user = await User.findOne({ 
+        tokenUser: token, 
+        deleted: false 
+    }).select("-password -tokenUser");
+    if (!user) {
+        res.json({
+            code: 400,
+            message: "Token không hợp lệ!"
+        })
+        return;
+    }
+    res.json({
+        code: 200,
+        info: user
     })
 }

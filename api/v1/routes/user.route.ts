@@ -6,3 +6,5 @@ export const routerUser: Router = Router()
 routerUser.post('/register', controller.register);
 
 routerUser.post('/login', controller.login);
+
+routerUser.get('/info', controller.info);
