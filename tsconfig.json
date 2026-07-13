@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "outDir": "./dist",
         "removeComments": true,
         "target": "es6",
         "module": "commonjs",// commonjs la tieu chuan trong nodejs de dung voi cac module
